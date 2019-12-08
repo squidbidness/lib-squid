@@ -1,14 +1,12 @@
-#ifndef LOOPS_HPP_A200C79C
-#define LOOPS_HPP_A200C79C
+#pragma once
 
-
-#include "lib/type_traits.hpp"
+#include "type_traits.hpp"
 
 #include <functional>
 #include <type_traits>
 
 
-namespace lib::detail {
+namespace squid::loops::detail {
 
 	template< typename Range >
 	using RangeValueType = decltype( *std::begin(std::declval<Range>()) );
@@ -40,7 +38,7 @@ namespace lib::detail {
 			typename Value
 	>
 	std::enable_if_t<
-			detail::IsNullaryOp<Op>::value,
+			IsNullaryOp<Op>::value,
 			void
 	>
 	doBetweenOp( Range &&, Op &&op, Value &&, Value && ) {
@@ -53,7 +51,7 @@ namespace lib::detail {
 			typename Value
 	>
 	std::enable_if_t<
-			detail::IsRangeValueBinaryOp<Range, Op>::value,
+			IsRangeValueBinaryOp<Range, Op>::value,
 			void
 	>
 	doBetweenOp( Range &&, Op &&op, Value &&a, Value &&b ) {
@@ -71,9 +69,9 @@ namespace lib::detail {
 				std::function< void(RangeValueType<Range>, size_t) >
 			>;
 
-} // namespace lib::detail
+}
 
-namespace lib {
+namespace squid {
 
 	template<
 			typename Range,
@@ -81,12 +79,12 @@ namespace lib {
 			typename BetweenOp,
 
 			typename = typename std::enable_if_t<
-				detail::IsRangeValueUnaryOp< Range, Op >::value
+				loops::detail::IsRangeValueUnaryOp< Range, Op >::value
 			>,
 			typename = typename std::enable_if_t<
 				disjunction<
-					detail::IsNullaryOp< BetweenOp >,
-					detail::IsRangeValueBinaryOp< Range, BetweenOp >
+					loops::detail::IsNullaryOp< BetweenOp >,
+					loops::detail::IsRangeValueBinaryOp< Range, BetweenOp >
 				>::value
 			>
 	>
@@ -101,7 +99,7 @@ namespace lib {
 		else
 			return;
 
-		using detail::doBetweenOp;
+		using loops::detail::doBetweenOp;
 		while ( next != end ) {
 			op( *curr );
 			doBetweenOp(
@@ -122,7 +120,7 @@ namespace lib {
 			typename Op,
 
 			typename = std::enable_if_t<
-				detail::IsIndexedForOp< Range, Op >::value >
+				loops::detail::IsIndexedForOp< Range, Op >::value >
 	>
 	void forIndexed( Range &&range, Op &&op ) {
 		size_t i = 0;
@@ -131,6 +129,4 @@ namespace lib {
 		}
 	}
 
-} // namespace lib
-
-#endif
+}

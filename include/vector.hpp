@@ -8,12 +8,12 @@
 #include <array>
 #include <initializer_list>
 
-namespace geo::hidden_Vector {
+namespace squid::hidden_Vector {
 	using namespace boost::hana::literals;
 	namespace hana = boost::hana;
 }
 
-namespace geo::hidden_Vector::exposed {
+namespace squid::hidden_Vector::exposed {
 
 	template< typename T, size_t N >
 	struct Vector : std::array<T, N> {
@@ -118,6 +118,6 @@ namespace geo::hidden_Vector::exposed {
 	}
 }
 
-namespace geo {
+namespace squid {
 	using namespace hidden_Vector::exposed;
 }

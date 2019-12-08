@@ -1,10 +1,9 @@
-#ifndef TYPE_TRAITS_HPP_EEF0693F
-#define TYPE_TRAITS_HPP_EEF0693F
+#pragma once
 
 #include <cstddef>
 #include <type_traits>
 
-namespace lib {
+namespace squid {
 
 	template < typename T >
 	using Type = typename T::type;
@@ -76,6 +75,4 @@ namespace lib {
 		static constexpr bool value = ( A != B );
 	};
 
-} // namespace lib
-
-#endif
+}

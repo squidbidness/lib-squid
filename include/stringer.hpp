@@ -1,12 +1,9 @@
-#ifndef STRINGER_HPP_1802EEDB
-#define STRINGER_HPP_1802EEDB
+#pragma once
 
 #include <sstream>
 #include <string>
-#include <type_traits>
 
-
-namespace lib {
+namespace squid {
 
     template< typename... Args >
     std::string stringer( Args &&...args ) {
@@ -16,5 +13,3 @@ namespace lib {
     }
 
 }
-
-#endif

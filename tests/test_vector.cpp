@@ -2,7 +2,7 @@
 
 #include "vector.hpp"
 
-namespace geo {
+namespace squid {
 
 	using namespace Vector_shorthand;
 
