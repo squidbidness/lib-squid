@@ -1,17 +1,7 @@
 #pragma once
 
-#include <boost/hana/integral_constant.hpp>
-#include <boost/hana/fold_left.hpp>
-#include <boost/hana/range.hpp>
-
-#include <algorithm>
 #include <array>
-#include <initializer_list>
-
-namespace squid::hidden_Vector {
-	using namespace boost::hana::literals;
-	namespace hana = boost::hana;
-}
+#include <type_traits>
 
 namespace squid::hidden_Vector::exposed {
 
@@ -22,24 +12,9 @@ namespace squid::hidden_Vector::exposed {
 
 		using Base::operator [];
 
-		template< int I >
-		constexpr T &operator[](
-				std::integral_constant< int, I >
-				)
-		{
-			return std::get<I>( *this );
-		}
-		template< int I >
-		constexpr T const &operator[](
-				std::integral_constant< int, I > i_c
-				)
-		{
-			return (*this)[i_c];
-		}
-
 		constexpr T &x() {
 			static_assert( N > 0 );
-			return (*this)[0_c];
+			return (*this)[0];
 		}
 		constexpr T const &x() const {
 			return x();
@@ -47,7 +22,7 @@ namespace squid::hidden_Vector::exposed {
 
 		constexpr T &y() {
 			static_assert( N > 1 );
-			return (*this)[1_c];
+			return (*this)[1];
 		}
 		constexpr T const &y() const {
 			return y();
@@ -55,7 +30,7 @@ namespace squid::hidden_Vector::exposed {
 
 		constexpr T &z() {
 			static_assert( N > 2 );
-			return (*this)[2_c];
+			return (*this)[2];
 		}
 		constexpr T const &z() const {
 			return z();
@@ -63,7 +38,7 @@ namespace squid::hidden_Vector::exposed {
 
 		constexpr T &w() {
 			static_assert( N > 3 );
-			return (*this)[3_c];
+			return (*this)[3];
 		}
 		constexpr T const &w() const {
 			return w();
@@ -82,14 +57,11 @@ namespace squid::hidden_Vector::exposed {
 	template< typename T, typename S, size_t N >
 	constexpr auto dot( Vector<T, N> const &a, Vector<S, N> const &b ) {
 		using Sum = decltype( std::declval<T>() + std::declval<S>() );
-		using hana::fold_left;
-		return fold_left(
-				hana::make_range( 0_c, hana::int_c<N> ),
-				Sum(0),
-				[&] ( Sum sum, auto i ) {
-					return sum + a[i] * b[i];
-				}
-				);
+		Sum sum = 0;
+		for ( int i = 0; i < N; ++i ) {
+			sum += a[i] * b[i];
+		}
+		return sum;
 	}
 
 
