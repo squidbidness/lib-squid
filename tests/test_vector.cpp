@@ -12,19 +12,15 @@ namespace squid {
 
 		if constexpr ( v.size() > 0 ) {
 			REQUIRE( v[0] == v.x() );
-					// << "v[0] = " << v[0] << ", v.x()=" << v.x();
 		}
 		if constexpr ( v.size() > 1 ) {
 			REQUIRE( v[1] == v.y() );
-					// << "v[1] = " << v[1] << ", v.y()=" << v.y();
 		}
 		if constexpr ( v.size() > 2 ) {
 			REQUIRE( v[2] == v.z() );
-					// << "v[2] = " << v[2] << ", v.z()=" << v.z();
 		}
 		if constexpr ( v.size() > 3 ) {
 			REQUIRE( v[3] == v.w() );
-					// << "v[3] = " << v[3] << ", v.w()=" << v.w();
 		}
 	}
 
